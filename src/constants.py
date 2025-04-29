@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv('TOKEN.env')
+load_dotenv('файл.env')
 
 
 class Meta(type):

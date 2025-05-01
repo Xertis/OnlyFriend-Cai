@@ -3,6 +3,7 @@ from aiogram.types import Message
 from src.logic.ai import AiSession
 from src.constants import Constants
 
+
 class Ai:
     def __init__(self):
         self.router = Router()

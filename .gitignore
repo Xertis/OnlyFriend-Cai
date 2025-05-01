@@ -1,2 +1,4 @@
 *.pyc
 .env
+/dataset
+/src/nn

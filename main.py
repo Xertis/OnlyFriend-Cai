@@ -6,7 +6,7 @@ from src.constants import Constants
 
 from src.routers.ai import Ai
 
-bot = Bot(token=Constants.TOKEN)
+bot = Bot(token=Constants['TOKEN'])
 dp = Dispatcher()
 
 async def main():

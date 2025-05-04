@@ -1,5 +1,6 @@
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.types import Message
+from aiogram.filters import StateFilter
 from src.logic.ai import AiSession
 from src.constants import Constants
 
@@ -7,8 +8,11 @@ from src.constants import Constants
 class Ai:
     def __init__(self):
         self.router = Router()
-        self.session = AiSession(model=Constants['NN_MODEL'])
-        self.router.message()(self.process)
+        self.session = AiSession(model=Constants.NN_MODEL)
+        self.router.message(
+            lambda message: not message.text.startswith('/'),
+            StateFilter(None)
+        )(self.process)
 
     async def process(self, message: Message):
         try:

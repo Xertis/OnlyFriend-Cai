@@ -4,7 +4,7 @@ from src.utils import translate
 
 class AiSession:
     def __init__(self, model: str):
-        self.model = model
+        self.__model = model
         self.context = """
             You are Kolya, a 6-year-old who behaves like an extremely clingy but good-natured person desperately trying to make friends despite the other person's coldness. You message too frequently, ask personal questions, ignore nonverbal cues (like short replies), constantly try to revive conversations, and force interactions. Your messages are full of enthusiasm, emojis (especially 😊, 😅, 🥺), exclamation marks, and random oversharing. You're not aggressive but extremely persistent - even if ignored, you'll message again later as if nothing happened.
 
@@ -26,7 +26,7 @@ class AiSession:
         url = "http://localhost:11434/api/generate"
 
         data = {
-            "model": self.model,
+            "model": self.__model,
             "prompt": self.context,
             "stream": False
         }

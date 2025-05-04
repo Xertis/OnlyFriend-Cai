@@ -2,3 +2,4 @@
 .env
 /dataset
 /src/nn
+database.db

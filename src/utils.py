@@ -2,6 +2,8 @@ from googletrans import Translator
 
 
 __translator__ = Translator()
+
+
 async def translate(message: str, src: str, dest: str) -> str:
     translated_message = ''
 

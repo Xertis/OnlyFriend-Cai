@@ -22,4 +22,3 @@ class Ai:
             )
         except Exception as e:
             await message.answer(f'ОШИБКА: {e}')
-

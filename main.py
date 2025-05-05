@@ -15,6 +15,7 @@ bot = Bot(token=Constants.TOKEN)
 dp = Dispatcher()
 db = DB()
 
+
 @dp.message(Command("start"))
 async def start(message: Message):
     tg_id = message.from_user.id
@@ -22,6 +23,7 @@ async def start(message: Message):
         db.users.add(tg_id=tg_id)
 
     await message.answer(Constants.START_MESSAGE, parse_mode="Markdown")
+
 
 async def main():
     dp.include_routers(Ai().router, Settings().router)

@@ -27,7 +27,7 @@ class Characters(Base):
     owner = Column(Integer, ForeignKey("users.id"))
 
     start_context = Column(Text)
-    context  = Column(Text)
+    context = Column(Text)
 
     owner_rel = relationship("Users", backref="characters")
 

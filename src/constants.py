@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv('ваш файл .env')
 
-# TODO: Расскоментировать, когда будет создан класс Structure и доделан Constants
+# TODO: Расскоментировать, когда будет создан класс Structure и доделан
+# Constants
 
 
 class Meta(type):

@@ -8,11 +8,16 @@ class DB_Characters:
 
     def has(self, owner_tg_id: str, name: str) -> Characters | None:
         return self.session.query(Characters).filter(
-            Characters.name == name, 
+            Characters.name == name,
             Characters.owner_rel.has(tg_id=owner_tg_id)
         ).one_or_none()
 
-    def add(self, name: str, owner: int, start_context: str, context: str='') -> Characters:
+    def add(
+            self,
+            name: str,
+            owner: int,
+            start_context: str,
+            context: str = '') -> Characters:
         data = Characters(
             name=name,
             owner=owner,
@@ -34,11 +39,11 @@ class DB_Characters:
     def get_by_id(self, character_id: int) -> Characters | None:
         return self.session.query(Characters).filter(
             Characters.id == character_id).one_or_none()
-    
+
     def get_by_owner(self, owner_id: int) -> list[Characters]:
         return self.session.query(Characters).filter(
             Characters.owner == owner_id).all()
-    
+
     def update_context(self, character_id: int, new_context: str) -> None:
         character = self.get_by_id(character_id)
         if character:

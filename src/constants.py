@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv('ваш файл .env')
+load_dotenv()
 
 # TODO: Расскоментировать, когда будет создан класс Structure и доделан
 # Constants

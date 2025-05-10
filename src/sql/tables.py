@@ -17,6 +17,7 @@ class Users(Base):
 
     id = Column(Integer, primary_key=True)
     tg_id = Column(Text)
+    current_char = Column(Integer)
 
 
 class Characters(Base):
@@ -25,6 +26,7 @@ class Characters(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     owner = Column(Integer, ForeignKey("users.id"))
+    img_id = Column(Text)
 
     start_context = Column(Text)
     context = Column(Text)

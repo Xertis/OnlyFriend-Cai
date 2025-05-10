@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.sql.tables import Users
+from src.sql.tables import Users, Characters
 
 
 class DB_Users:
@@ -23,3 +23,7 @@ class DB_Users:
     def get(self, tg_id: str) -> Users | None:
         return self.session.query(Users).filter(
             Users.tg_id == tg_id).one_or_none()
+    
+    def set_char(self, user: Users, char_id: int) -> None:
+        user.current_char = char_id
+        self.session.commit()

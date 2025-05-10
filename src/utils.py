@@ -2,6 +2,15 @@ import random
 from PIL import Image, ImageDraw
 from googletrans import Translator
 
+from src.routers.no_command_callback import AddToNoCommand
+from aiogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    ReplyKeyboardMarkup,
+    KeyboardButton
+)
+
+
 
 __translator__ = Translator()
 async def translate(message: str, src: str, dest: str) -> str:
@@ -48,3 +57,30 @@ async def child_paint(rate: int=5) -> Image:
             x, y = new_x, new_y
 
     return image
+
+
+async def BuildInlineButtons(buttons: list):
+    inline_keyboard = []
+
+    for row in buttons:
+        inline_row = []
+        for button in row:
+            inline_button = InlineKeyboardButton(
+                text=button[0], callback_data=button[1])
+            inline_row.append(inline_button)
+        inline_keyboard.append(inline_row)
+
+    return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
+
+
+async def BuildReplyButtons(buttons: list):
+    for y, u in enumerate(buttons):
+        for x, l in enumerate(u):
+            buttons[y][x] = KeyboardButton(text=l[0])
+            await AddToNoCommand(l[0], l[1], l[2])
+
+    return ReplyKeyboardMarkup(
+        keyboard=buttons,
+        resize_keyboard=True,
+        input_field_placeholder='Выберите действие из меню',
+        one_time_keyboard=True)

@@ -1,4 +1,6 @@
 import os
+from os import environ
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -7,78 +9,64 @@ load_dotenv()
 # Constants
 
 
-class Meta(type):
+class Struct:
+    def __init__(self, *args, **kwargs):
+
+        self._data = {}
+        self._keys_order = []
+
+        for idx, value in enumerate(args):
+            key = str(idx)
+            self._data[key] = value
+            self._keys_order.append(key)
+
+        for key, value in kwargs.items():
+            self._data[key] = value
+            self._keys_order.append(key)
+
     def __getitem__(self, key):
-        # Позволяет получать значения по ключу, как в словаре.
-        if key == "TOKEN":
-            return self._TOKEN
-        elif key == "NN_MODEL":
-            return self._NN_MODEL
-        elif key == "DB_PATH":
-            return self._DB_PATH
+
+        if isinstance(key, int):
+            key = str(key)
+            return self._data.get(key, None)
+        return self._data.get(key, None)
+
+    def __setitem__(self, key, value):
+
+        if isinstance(key, int):
+            key = str(key)
+        if key not in self._data:
+            self._keys_order.append(key)
+        self._data[key] = value
+
+    def __getattr__(self, name):
+
+        if name in self._data:
+            return self._data[name]
+        raise AttributeError(f"'Struct' object has no attribute '{name}'")
+
+    def __setattr__(self, name, value):
+
+        if name in ('_data', '_keys_order'):
+            super().__setattr__(name, value)
         else:
-            raise KeyError(f"'{key}' не найдено")
+            self._data[name] = value
+            if name not in self._keys_order:
+                self._keys_order.append(name)
 
+    def __len__(self):
 
-class Structure:
-    def __init__(self):
-        self._values = {
-            'TOKEN': os.getenv('TOKEN'),
-            'NN_MODEL': os.getenv('NN_MODEL'),
-            'DB_PATH': os.getenv('DB_PATH')
-        }
+        return len(self._data)
 
-    def get(self, key):
-        # Возвращает значение по ключу.
-        return self._values.get(key)
+    def __iter__(self):
 
-    def set(self, key, value):
-        # Устанавливает значение по ключу.
-        self._values[key] = value
+        return iter(self._keys_order)
 
+    def __str__(self):
 
-class Constants(metaclass=Meta):
-    TOKEN = Structure().get('TOKEN')
-    NN_MODEL = Structure().get('NN_MODEL')
-    DB_PATH = Structure().get('DB_PATH')
-    _immutable_attributes = ['TOKEN', 'NN_MODEL', 'DB_PATH']
+        items = [f"{key}: {self._data[key]}" for key in self._keys_order]
+        return "{" + ", ".join(items) + "}"
 
-    def __init__(self):
-        self.structure = Structure()
-        self._TOKEN = self.structure.get('TOKEN')
-        self._NN_MODEL = self.structure.get('NN_MODEL')
-        self._DB_PATH = self.structure.get('DB_PATH')
+    def __repr__(self):
 
-    def __setattr__(self, key, value):
-        # Запрещаем изменение существующих неизменяемых атрибутов
-        if key in self._immutable_attributes:
-            raise AttributeError(f"Нельзя изменить значение атрибута '{key}'")
-        super().__setattr__(key, value)
-
-    def get_token(self):
-        # Возвращает переменную окружения TOKEN.
-        return self._TOKEN
-
-    def get_nn_model(self):
-        # Возвращает переменную окружения NN_MODEL.
-        return self._NN_MODEL
-
-    def get_db_path(self):
-        # Возвращает переменную окружения DB_PATH.
-        return self._DB_PATH
-
-    def set_token(self, value):
-        # Устанавливает новое значение для TOKEN в структуре.
-        self.structure.set('TOKEN', value)
-
-    def set_nn_model(self, value):
-        # Устанавливает новое значение для NN_MODEL в структуре.
-        self.structure.set('NN_MODEL', value)
-
-    def set_db_path(self, value):
-        # Устанавливает новое значение для DB_PATH в структуре.
-        self.structure.set('DB_PATH', value)
-
-
-for key, val in os.environ.items():
-    setattr(Constants, key, val)
+        return self.__str__()

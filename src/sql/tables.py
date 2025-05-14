@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from src.constants import Constants
+from src.constants import Struct
 from sqlalchemy import (
     create_engine,
     Column, Integer,
@@ -8,7 +8,7 @@ from sqlalchemy import (
 )
 
 
-engine = create_engine(Constants.DB_PATH)
+engine = create_engine(Struct.DB_PATH)
 Base = declarative_base()
 
 

@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import StateFilter
 from src.logic.ai import AiSession
-from src.constants import Constants
+from src.constants import Struct
 from src.sql.api import DB
 
 
@@ -19,7 +19,7 @@ class Ai:
         owner = self.db.users.get(message.from_user.id)
         char = self.db.chars.get_by_id(character_id=owner.current_char)
 
-        session = AiSession(model=Constants.NN_MODEL, context=char.start_context + char.context)
+        session = AiSession(model=Struct.NN_MODEL, context=char.start_context + char.context)
         try:
             await message.answer(
                 await session.ask(message=message.text),

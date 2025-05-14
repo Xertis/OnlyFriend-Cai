@@ -2,9 +2,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from src.sql.queries.users import DB_Users
 from src.sql.queries.characters import DB_Characters
-from src.constants import Constants
+from src.constants import Struct
 
-engine = create_engine(Constants.DB_PATH)
+engine = create_engine(Struct.DB_PATH)
 
 
 class DB:

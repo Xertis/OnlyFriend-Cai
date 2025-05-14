@@ -2,7 +2,7 @@ from aiogram import Router, F, types, Bot
 from aiogram.types import Message
 from aiogram.filters import Command
 from src.logic.ai import AiSession
-from src.constants import Constants
+from src.constants import Struct
 from aiogram.fsm.context import FSMContext
 from src.fsm.states import CreatingChar
 from src.sql.api import DB

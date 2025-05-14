@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
-from src.constants import Constants
+from src.constants import Struct
 from aiogram.filters import Command
 from aiogram.types import Message
 
@@ -11,9 +11,8 @@ from src.routers.settings import Settings
 
 from src.sql.api import DB
 
-bot = Bot(token=Constants.TOKEN)
+bot = Bot(token=Struct.TOKEN)
 dp = Dispatcher()
-db = DB()
 
 
 @dp.message(Command("start"))

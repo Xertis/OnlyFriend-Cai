@@ -1,14 +1,15 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from src.constants import Struct
+from src.constants import Constants
 from sqlalchemy import (
     create_engine,
     Column, Integer,
-    Text, ForeignKey
+    Text, ForeignKey,
+    TIMESTAMP
 )
 
 
-engine = create_engine(Struct.DB_PATH)
+engine = create_engine(Constants.DB_PATH)
 Base = declarative_base()
 
 
@@ -18,6 +19,14 @@ class Users(Base):
     id = Column(Integer, primary_key=True)
     tg_id = Column(Text)
     current_char = Column(Integer)
+    last_upd = Column(TIMESTAMP)
+
+
+class Images(Base):
+    __tablename__ = "images"
+
+    id = Column(Integer, primary_key=True)
+    tg_id = Column(Text)
 
 
 class Characters(Base):

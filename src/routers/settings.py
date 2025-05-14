@@ -1,8 +1,6 @@
 from aiogram import Router, F, types, Bot
 from aiogram.types import Message
 from aiogram.filters import Command
-from src.logic.ai import AiSession
-from src.constants import Struct
 from aiogram.fsm.context import FSMContext
 from src.fsm.states import CreatingChar
 from src.sql.api import DB
@@ -21,6 +19,7 @@ class Settings:
 
         self.router.callback_query(self.char_del_cheaker)(self.del_char)
         self.router.callback_query(self.char_set_cheaker)(self.set_char)
+        self.router.callback_query(self.avatar_set_cheaker)(self.set_avatar)
 
     @staticmethod
     async def char_set_cheaker(callback):
@@ -30,6 +29,10 @@ class Settings:
     async def char_del_cheaker(callback):
         return callback.data.startswith("char.del")
     
+    @staticmethod
+    async def avatar_set_cheaker(callback):
+        return callback.data.startswith("char.avatar:")
+
     async def del_char(
         self,
         callback_query: 
@@ -59,6 +62,25 @@ class Settings:
         await callback_query.message.answer("Новый персонаж выбран")
         await callback_query.answer()
 
+    async def set_avatar(
+        self,
+        callback_query:
+        types.CallbackQuery
+    ):
+
+        photo_id = callback_query.data.split(':')[-2]
+        photo_id = self.db.imgs.get_by_id(photo_id).tg_id
+        char_id = int(callback_query.data.split(':')[-1])
+
+        char = self.db.chars.get_by_id(character_id=char_id)
+
+        if not char:
+            return
+        
+        char.img_id = photo_id
+        self.db.session.commit()
+        await callback_query.message.answer("Новый аватар выбран", parse_mode="Markdown")
+        await callback_query.answer()
 
     async def new_char_start(
         self,

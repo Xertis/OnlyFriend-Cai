@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from src.sql.queries.users import DB_Users
+from src.sql.queries.images import DB_Images
 from src.sql.queries.characters import DB_Characters
-from src.constants import Struct
+from src.constants import Constants
 
-engine = create_engine(Struct.DB_PATH)
+engine = create_engine(Constants.DB_PATH)
 
 
 class DB:
@@ -12,4 +13,5 @@ class DB:
         self.session = sessionmaker(bind=engine)()
 
         self.users = DB_Users(self.session)
+        self.imgs = DB_Images(self.session)
         self.chars = DB_Characters(self.session)

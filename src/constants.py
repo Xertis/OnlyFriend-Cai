@@ -70,3 +70,8 @@ class Struct:
     def __repr__(self):
 
         return self.__str__()
+    
+Constants = Struct()
+    
+for key, val in os.environ.items():
+    Constants[key] = val

@@ -40,7 +40,7 @@ async def send_rand_message():
         if user.last_upd and (datetime.now() - user.last_upd.replace(tzinfo=None)) < timedelta(minutes=5):
             continue
 
-        if rand(0, 1) == 0 and 0:
+        if rand(0, 1) == 0:
             await bot.send_message(user_id, await session.ask(Constants.PLEA, False))
         else:
             buffer = BytesIO()

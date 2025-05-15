@@ -2,3 +2,7 @@ aiogram
 googletrans
 Pillow
 SQLAlchemy
+requests
+dotenv
+python-dotenv
+APScheduler
